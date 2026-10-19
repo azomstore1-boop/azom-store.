@@ -64,7 +64,105 @@ footer{text-align:center;padding:36px 16px 100px;color:#8490a5;font-size:13px}
 hr{border:0;border-top:1px solid #e5e9f1}
 @media(max-width:700px){header{padding:12px 14px}header h1{font-size:19px}header small{font-size:10px}.wrap{padding:16px 12px 28px}.hero{border-radius:22px;padding:25px 21px;min-height:205px}.hero p{font-size:13px}.toolbar{grid-template-columns:1fr 1fr;gap:9px}.toolbar input{grid-column:1/-1}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.photo{height:145px}.card{border-radius:16px}.card .inside{padding:11px;gap:8px}.card h3{font-size:14px}.price{font-size:19px}.actions{flex-direction:column;gap:6px}.actions button{width:100%;padding:9px 7px}.bar{padding:10px 13px}.bar button{padding:10px 12px;font-size:13px}.panel{padding:16px}.modal{padding:17px;border-radius:18px}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
-</style></head><body><header><div><h1>AZOM STORE</h1><small>Explore • Choose • Order on WhatsApp</small></div><div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end"><button class="outline" onclick="openOrders()">📦 আমার অর্ডার</button><button class="green" onclick="openCart()">🛒 কার্ট <span id="count">0</span></button></div></header><main class="wrap"><section class="hero"><h2>স্বাগতম Azom Store-এ!</h2><p>চাইনিজ স্ন্যাকস, গ্যাজেট, কসমেটিকস, ফ্যাশন ও আরও অনেক কিছু। পছন্দ করুন, WhatsApp-এ অর্ডার করুন।</p></section><div id="status" class="notice" hidden></div><div class="toolbar"><input id="search" placeholder="🔎 প্রোডাক্ট খুঁজুন..." aria-label="Search products"><select id="category" aria-label="Category"><option value="">সব ক্যাটাগরি</option></select><select id="sort" aria-label="Sort"><option value="">ডিফল্ট</option><option value="asc">কম দাম আগে</option><option value="desc">বেশি দাম আগে</option></select></div><p id="summary" class="muted"></p><div id="products" class="grid"></div></main><div class="bar"><div><strong id="bottomCount">0 পিস</strong><div class="muted" id="bottomTotal">৳0</div></div><button class="green" onclick="openCart()">কার্ট দেখুন →</button></div><div id="drawer" class="drawer" onclick="if(event.target===this)closeCart()"><div class="panel"><div class="row"><h2>আপনার কার্ট</h2><button class="outline" onclick="closeCart()">✕</button></div><div id="cartItems"></div><hr><div class="row"><span>পণ্যের মূল্য</span><strong id="subtotal"></strong></div><div class="row"><span>ডেলিভারি (সারা বাংলাদেশ)</span><strong id="delivery"></strong></div><div class="row"><strong>মোট</strong><strong id="grand"></strong></div><form id="orderForm" class="checkout-form" onsubmit="checkout(event)">
+/* AZOM STORE colorful retail theme inspired by the supplied reference */
+:root{font-family:Inter,system-ui,'Noto Sans Bengali',sans-serif;color:#253346;background:#f3f4f6;font-synthesis:none;--navy:#24384b;--ink:#253346;--muted:#75808d;--purple:#f2c400;--purple2:#ffda28;--mint:#20a879;--line:#e3e6eb;--surface:#fff;--soft:#fff8d9}
+body{background:#f1f2f4;color:var(--ink)}
+header{background:linear-gradient(110deg,#203449,#304b60);color:#fff;border-bottom:5px solid #f3c500;box-shadow:0 5px 18px #16263822}
+header h1{letter-spacing:1.1px;font-size:clamp(20px,3vw,28px)}
+header h1:before{content:"✦";color:#ffd21f}
+header small{color:#dce5ed}
+header .outline{background:#ffffff12;color:#fff;border-color:#ffffff45}
+.green{background:linear-gradient(135deg,#ffd62e,#f2bd00);color:#263548;box-shadow:0 5px 14px #b38a001f}
+.green:hover:not(:disabled){background:linear-gradient(135deg,#ffe15d,#f3c000)}
+.dark{background:#24384b;color:#fff}
+.outline{background:#fff;color:#304257;border:1px solid #dce1e7}
+.wrap{max-width:1200px;padding-top:22px}
+.hero{background:linear-gradient(110deg,#174a83 0%,#367eaa 35%,#d4c6cf 66%,#ef9f8e 100%);border-radius:0;min-height:290px;margin-bottom:24px;padding:clamp(28px,5vw,60px);box-shadow:0 12px 28px #1d34421b}
+.hero:before{width:360px;height:360px;right:3%;top:-90px;border:2px solid #ffffff55;box-shadow:0 0 0 25px #ffffff0d,0 0 0 58px #ffffff0d,0 0 0 92px #ffffff0a}
+.hero:after{content:"🛍️";right:9%;bottom:5%;font-size:clamp(100px,16vw,175px);line-height:1;color:#fff;opacity:.75;transform:rotate(-9deg);filter:drop-shadow(0 14px 14px #17364b35)}
+.hero h2{max-width:610px;text-shadow:0 2px 8px #102b4a20}
+.hero p{color:#fff;max-width:580px;text-shadow:0 1px 5px #102b4a30}
+.toolbar{margin-top:25px}
+input:focus,select:focus,textarea:focus{border-color:#edc400;box-shadow:0 0 0 4px #f3c50026}
+#summary{color:#4b5a6b}
+.grid{gap:20px}
+.card{border:1px solid #e4e6e9;border-radius:4px;box-shadow:0 5px 15px #1b2b3c0b}
+.card:hover{transform:translateY(-4px);box-shadow:0 12px 24px #1b2b3c18;border-color:#f0cf35}
+.photo{height:220px;background:#fff;padding:10px;object-fit:contain}
+.card .inside{padding:15px}
+.card h3{color:#293b4e}
+.price{color:#e0ad00}
+.tag{background:#e4f8ed;color:#167a50}
+.sold{background:#fff0f0;color:#c13d51}
+.actions button{border-radius:3px}
+.bar{background:#fff;border-top:3px solid #f3c500;box-shadow:0 -6px 20px #1b2b3c0b}
+.drawer{background:#13233899}
+.panel{background:#f8f9fb;border-left:5px solid #f3c500}
+.panel h2,.modal h2{color:#24384b}
+.notice{background:#fff8d9;border-color:#f3d96b;color:#6b5715;border-radius:5px}
+.checkout-form input,.checkout-form textarea,.checkout-form select{border-radius:6px}
+.checkout-form label{color:#34465a}
+footer{background:#24384b;color:#d5dee7;border-top:5px solid #f3c500;padding:35px 16px 100px}
+.modal{border-radius:8px;border-top:5px solid #f3c500}
+@media(max-width:700px){.hero{border-radius:0;min-height:235px;padding:27px 20px}.hero:after{right:4%;bottom:7%;font-size:95px;opacity:.38}.photo{height:150px}.grid{gap:11px}.card{border-radius:5px}.card .inside{padding:10px}.bar{border-top-width:3px}}
+
+
+/* Premium marketplace polish: colorful, responsive and lightweight */
+:root{--market-orange:#f57224;--market-yellow:#f9c80e;--market-blue:#243b53;--market-teal:#12b8a6;--market-pink:#f15bb5}
+body{background:#f4f6f9}
+header{position:sticky;top:0;z-index:30;padding-top:15px;padding-bottom:15px}
+header>div:first-child{min-width:0}
+header h1{display:flex;align-items:center}
+header h1:before{content:"A";display:inline-grid;place-items:center;width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#ffdc35,#ff8b36);color:#24384b;font-size:19px;margin-right:9px;box-shadow:0 4px 10px #0002}
+.wrap{padding-top:18px}
+.hero{border-radius:20px;min-height:300px;background:linear-gradient(112deg,#153b70 0%,#246f9d 36%,#d86c91 72%,#ffb45d 100%);box-shadow:0 16px 36px #18385b24}
+.hero h2{font-size:clamp(30px,4.3vw,48px);max-width:590px}
+.hero p{font-size:16px;max-width:540px}
+.hero:after{content:"🛍️";right:7%;bottom:5%;font-size:clamp(115px,17vw,200px);opacity:.86;filter:drop-shadow(0 15px 15px #152c4c4a)}
+.hero:before{right:4%;top:-90px;width:350px;height:350px;border:2px solid #ffffff50;box-shadow:0 0 0 25px #ffffff0c,0 0 0 58px #ffffff0a,0 0 0 90px #ffffff08}
+.hero-cta{display:inline-flex;align-items:center;gap:9px;margin-top:20px;padding:12px 19px;border-radius:9px;background:#ffd42a;color:#24384b;text-decoration:none;font-weight:900;box-shadow:0 7px 20px #102c4c30}
+.market-strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:18px 0 26px}
+.market-tile{position:relative;overflow:hidden;min-height:95px;padding:16px;border-radius:14px;color:white;display:flex;flex-direction:column;justify-content:center;box-shadow:0 8px 20px #20334b12}
+.market-tile strong{font-size:16px;position:relative;z-index:1}.market-tile span{font-size:12px;opacity:.92;position:relative;z-index:1;margin-top:5px}
+.market-tile:after{content:attr(data-icon);position:absolute;right:10px;bottom:-12px;font-size:62px;opacity:.25;transform:rotate(-12deg)}
+.tile-orange{background:linear-gradient(125deg,#ff7b35,#f4a623)}.tile-purple{background:linear-gradient(125deg,#6758e8,#a45ce7)}.tile-teal{background:linear-gradient(125deg,#079b9b,#38c7ad)}.tile-pink{background:linear-gradient(125deg,#e84c91,#ff8d78)}
+.service-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:18px 0 24px}
+.service-item{display:flex;align-items:center;gap:11px;background:#fff;border:1px solid #e8edf3;border-radius:13px;padding:13px;min-width:0}
+.service-icon{width:39px;height:39px;flex:0 0 39px;display:grid;place-items:center;border-radius:12px;background:#fff3d0;font-size:20px}
+.service-item:nth-child(2) .service-icon{background:#e4f8ef}.service-item:nth-child(3) .service-icon{background:#e9edff}.service-item:nth-child(4) .service-icon{background:#ffe7f1}
+.service-item strong{display:block;font-size:12px;color:#26394d}.service-item small{display:block;color:#8290a0;font-size:10px;margin-top:3px;line-height:1.4}
+.section-heading{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:24px 0 12px}.section-heading h2{margin:0;color:#26384b;font-size:clamp(20px,3vw,27px)}.section-heading p{margin:4px 0 0;color:#8591a0;font-size:12px}
+.toolbar{background:#fff;padding:12px;border-radius:14px;border:1px solid #e7ebf0;grid-template-columns:minmax(220px,2fr) minmax(150px,1fr) minmax(140px,.8fr)}
+input,select,textarea{border-radius:9px}
+.grid{grid-template-columns:repeat(auto-fill,minmax(205px,1fr));gap:16px}
+.card{border-radius:13px;position:relative;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 16px #1b2b3c0a}
+.card:hover{transform:translateY(-5px);box-shadow:0 14px 28px #1b2b3c18}
+.photo{height:200px;padding:12px;object-fit:contain;background:linear-gradient(145deg,#fff,#f6f8fb)}
+.card .inside{padding:14px}
+.price{color:#f06b27;font-size:22px}
+.tag{border-radius:5px}
+.actions button{border-radius:8px}
+.bar{z-index:35;border-top:3px solid #ffd42a}
+footer{background:#24384b;color:#d7e1eb;margin-top:28px;padding:36px 18px 110px;line-height:1.8}
+footer:before{content:"AZOM STORE  •  SHOP SMART, LIVE BETTER";display:block;color:#ffd42a;font-size:18px;font-weight:900;letter-spacing:1px;margin-bottom:8px}
+.notice{border-radius:10px}
+@media(max-width:760px){header{padding:11px 12px;gap:8px}header h1{font-size:17px;letter-spacing:.5px}header h1:before{width:27px;height:27px;font-size:16px}.wrap{padding:12px 10px 25px}.hero{min-height:265px;padding:25px 19px;border-radius:15px}.hero h2{font-size:29px;max-width:75%}.hero p{font-size:13px;max-width:75%}.hero:after{right:1%;bottom:4%;font-size:105px}.hero:before{width:230px;height:230px;right:-40px;top:-45px}.hero-cta{font-size:12px;padding:10px 13px;margin-top:15px}.market-strip{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:12px 0 18px}.market-tile{min-height:82px;padding:12px;border-radius:11px}.market-tile strong{font-size:14px}.market-tile span{font-size:11px}.market-tile:after{font-size:48px}.service-row{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.service-item{padding:10px;gap:8px}.service-icon{width:32px;height:32px;flex-basis:32px;font-size:17px}.service-item strong{font-size:11px}.service-item small{font-size:9px}.toolbar{padding:9px;grid-template-columns:1fr 1fr}.toolbar input{grid-column:1/-1}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.photo{height:140px;padding:8px}.card .inside{padding:10px;gap:7px}.card h3{font-size:13px}.price{font-size:18px}.actions{flex-direction:column}.actions button{font-size:12px}.section-heading{margin:20px 0 10px}.section-heading h2{font-size:20px}}
+@media(max-width:380px){header small{display:none}.hero h2{font-size:25px}.hero p{max-width:82%}.hero:after{font-size:82px}.service-item{align-items:flex-start}.grid{gap:7px}.photo{height:120px}}
+
+</style></head><body><header><div><h1>AZOM STORE</h1><small>Explore • Choose • Order on WhatsApp</small></div><div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end"><button class="outline" onclick="openOrders()">📦 আমার অর্ডার</button><button class="green" onclick="openCart()">🛒 কার্ট <span id="count">0</span></button></div></header><main class="wrap"><section class="hero"><h2>স্বাগতম Azom Store-এ!</h2><p>চাইনিজ স্ন্যাকস, গ্যাজেট, কসমেটিকস, ফ্যাশন ও আরও অনেক কিছু। পছন্দ করুন, WhatsApp-এ অর্ডার করুন।</p><a class="hero-cta" href="#products">এখনই কেনাকাটা করুন <span>→</span></a></section>
+<section class="market-strip" aria-label="Shop categories">
+ <div class="market-tile tile-orange" data-icon="🍟"><strong>চাইনিজ স্ন্যাকস</strong><span>মজার স্বাদের কালেকশন</span></div>
+ <div class="market-tile tile-purple" data-icon="🎧"><strong>গ্যাজেট ও অ্যাকসেসরিজ</strong><span>দৈনন্দিন স্মার্ট পছন্দ</span></div>
+ <div class="market-tile tile-teal" data-icon="✨"><strong>বিউটি ও লাইফস্টাইল</strong><span>নিজের যত্নে নতুন কিছু</span></div>
+ <div class="market-tile tile-pink" data-icon="🎁"><strong>কম্বো ও স্পেশাল ডিল</strong><span>দারুণ পছন্দ, একসাথে</span></div>
+</section>
+<section class="service-row" aria-label="Store benefits">
+ <div class="service-item"><span class="service-icon">🛍️</span><div><strong>সহজ অর্ডার</strong><small>কার্ট থেকে WhatsApp-এ</small></div></div>
+ <div class="service-item"><span class="service-icon">📦</span><div><strong>সারা বাংলাদেশে</strong><small>ডেলিভারির ব্যবস্থা</small></div></div>
+ <div class="service-item"><span class="service-icon">💬</span><div><strong>সরাসরি যোগাযোগ</strong><small>অর্ডার নিয়ে কথা বলুন</small></div></div>
+ <div class="service-item"><span class="service-icon">🔒</span><div><strong>তথ্য যাচাই</strong><small>অর্ডার নিশ্চিতের আগে</small></div></div>
+</section>
+<div class="section-heading"><div><h2>✨ আমাদের কালেকশন</h2><p>আপনার পছন্দের পণ্য খুঁজে নিন</p></div></div><div id="status" class="notice" hidden></div><div class="toolbar"><input id="search" placeholder="🔎 প্রোডাক্ট খুঁজুন..." aria-label="Search products"><select id="category" aria-label="Category"><option value="">সব ক্যাটাগরি</option></select><select id="sort" aria-label="Sort"><option value="">ডিফল্ট</option><option value="asc">কম দাম আগে</option><option value="desc">বেশি দাম আগে</option></select></div><p id="summary" class="muted"></p><div id="products" class="grid"></div></main><div class="bar"><div><strong id="bottomCount">0 পিস</strong><div class="muted" id="bottomTotal">৳0</div></div><button class="green" onclick="openCart()">কার্ট দেখুন →</button></div><div id="drawer" class="drawer" onclick="if(event.target===this)closeCart()"><div class="panel"><div class="row"><h2>আপনার কার্ট</h2><button class="outline" onclick="closeCart()">✕</button></div><div id="cartItems"></div><hr><div class="row"><span>পণ্যের মূল্য</span><strong id="subtotal"></strong></div><div class="row"><span>ডেলিভারি (সারা বাংলাদেশ)</span><strong id="delivery"></strong></div><div class="row"><strong>মোট</strong><strong id="grand"></strong></div><form id="orderForm" class="checkout-form" onsubmit="checkout(event)">
 <h3 style="margin:0">ডেলিভারির তথ্য <span class="required">*</span></h3>
 <label>কাস্টমারের পূর্ণ নাম <span class="required">*</span><input id="customerName" name="customerName" required minlength="2" maxlength="80" autocomplete="name" placeholder="আপনার পূর্ণ নাম"></label>
 <label>মোবাইল নম্বর <span class="required">*</span><input id="customerPhone" name="customerPhone" type="tel" required inputmode="numeric" pattern="(?:\+?88)?01[3-9][0-9]{8}" title="সঠিক বাংলাদেশি মোবাইল নম্বর লিখুন, যেমন 01712345678" placeholder="01XXXXXXXXX" autocomplete="tel"></label>
